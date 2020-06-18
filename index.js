@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const meals = require('./controllers/meals');
+const meals = require('./features/meals');
 
 app.use(express.json());
 

@@ -11,6 +11,10 @@ if (!fsSync.existsSync(mealFile)) {
 }
 
 // functions
+const list = async () => {
+    return JSON.parse(await fs.readFile(mealFile));
+}
+
 const add = async (meal) => {
     const meals = JSON.parse(await fs.readFile(mealFile));
     meals.push(meal);
@@ -18,5 +22,6 @@ const add = async (meal) => {
 };
 
 module.exports = {
+    list,
     add
 }

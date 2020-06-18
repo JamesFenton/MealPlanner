@@ -1,8 +1,9 @@
 const Joi = require('joi');
 const mealsRepo = require('../infrastructure/meals-repo');
 
-const list = (req, res) => {
-    return [];
+const list = async (req, res) => {
+    const meals = await mealsRepo.list();
+    res.send(meals);
 }
 
 const add = async (req, res) => {
