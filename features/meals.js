@@ -16,11 +16,11 @@ const add = async (req, res) => {
         name: Joi.string().required().min(3).max(25),
         ingredients: Joi.array().items(ingredientSchema)
     });
-    const result = mealSchema.validate(req.body);
+    const {error} = mealSchema.validate(req.body);
 
     // if invalid
-    if (result.error) {
-        res.status(400).send(result.error.details.map(d => d.message));
+    if (error) {
+        res.status(400).send(error.details.map(d => d.message));
         return;
     }
 
