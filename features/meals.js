@@ -19,10 +19,7 @@ const add = async (req, res) => {
     const {error} = mealSchema.validate(req.body);
 
     // if invalid
-    if (error) {
-        res.status(400).send(error.details.map(d => d.message));
-        return;
-    }
+    if (error) return res.status(400).send(error.details.map(d => d.message));
 
     // if valid - save
     const meal = {
