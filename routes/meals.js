@@ -1,12 +1,15 @@
+const express = require('express');
+const router = express.Router();
+
 const Joi = require('joi');
 const mealsRepo = require('../infrastructure/meals-repo');
 
-const list = async (req, res) => {
+router.get('/', async (req, res) => {
     const meals = await mealsRepo.list();
     res.send(meals);
-}
+});
 
-const add = async (req, res) => {
+router.post('/', async (req, res) => {
     // validate
     const ingredientSchema = Joi.object({
         quantity: Joi.number().required(),
@@ -29,9 +32,6 @@ const add = async (req, res) => {
     await mealsRepo.add(meal);
 
     res.send(meal);
-}
+});
 
-module.exports = {
-    list,
-    add
-}
+module.exports = router;

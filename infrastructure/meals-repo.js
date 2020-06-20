@@ -4,6 +4,7 @@ const path = require('path');
 const {storageFolder} = require('../config/config');
 
 // initial setup
+//fsSync.mkdirSync(storageFolder);
 const mealFile = path.join(storageFolder, 'meals.json');
 if (!fsSync.existsSync(mealFile)) {
     console.log('creating meals file');
