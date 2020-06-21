@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-
 const Joi = require('joi');
-const mealsRepo = require('../infrastructure/meals-repo');
+const Meal = require('../models/meal');
 
 router.get('/', async (req, res) => {
-    const meals = await mealsRepo.list();
+    const meals = await Meal
+        .find()
+        .sort({name: 1});
+
     res.send(meals);
 });
 
@@ -25,11 +27,11 @@ router.post('/', async (req, res) => {
     if (error) return res.status(400).send(error.details.map(d => d.message));
 
     // if valid - save
-    const meal = {
+    const meal = new Meal({
         name: req.body.name,
         ingredients: req.body.ingredients
-    };
-    await mealsRepo.add(meal);
+    });
+    await meal.save();
 
     res.send(meal);
 });
