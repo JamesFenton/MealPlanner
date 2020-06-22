@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const config = require('./config');
+const ingredients = require('./routes/ingredients');
 const meals = require('./routes/meals');
 const mongoose = require('mongoose');
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
     res.send('hello');
 });
 
+app.use('/api/ingredients', ingredients);
 app.use('/api/meals', meals);
 
 // run

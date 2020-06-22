@@ -21,10 +21,10 @@ router.post('/', async (req, res) => {
         name: Joi.string().required().min(3).max(25),
         ingredients: Joi.array().items(ingredientSchema)
     });
-    const {error} = mealSchema.validate(req.body);
+    //const {error} = mealSchema.validate(req.body);
 
     // if invalid
-    if (error) return res.status(400).send(error.details.map(d => d.message));
+    //if (error) return res.status(400).send(error.details.map(d => d.message));
 
     // if valid - save
     const meal = new Meal({
