@@ -17,17 +17,17 @@ class Ingredients extends Component<{}, IngredientsState> {
 
   render() { 
     return ( 
-      <div>
-        <div className="card">
-        <h5 className="card-header">Ingredients</h5>
+      <div className="container">
         <table className="table">
+          <tr>
+            <th>Ingredients</th>
+          </tr>
           {this.state.ingredients.map(i => 
             <tr>
               <td>{i.name}</td>
             </tr>
             )}
         </table>
-        </div>
       </div>
      );
   }
