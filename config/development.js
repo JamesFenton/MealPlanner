@@ -1,3 +1,3 @@
 module.exports = {
-    mongoConnectionString: 'mongodb://localhost/MealPlanner'
+  mongoConnectionString: 'mongodb://localhost/MealPlanner'
 }

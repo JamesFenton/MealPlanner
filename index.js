@@ -4,13 +4,15 @@ const config = require('./config');
 const ingredients = require('./routes/ingredients');
 const meals = require('./routes/meals');
 const mongoose = require('mongoose');
+const seed = require('./seeder');
 
 // configure DB
 mongoose.connect(config.mongoConnectionString, {useNewUrlParser: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log("DB connected");
+  console.log("DB connected. Seeding.");
+  seed();
 });
 
 // routes
