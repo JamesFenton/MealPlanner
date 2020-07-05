@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const config = require('./config');
 const ingredients = require('./routes/ingredients');
@@ -15,12 +16,11 @@ db.once('open', function() {
   seed();
 });
 
+if (config.cors)
+  app.use(cors());
+
 // routes
 app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.send('hello');
-});
 
 app.use('/api/ingredients', ingredients);
 app.use('/api/meals', meals);
