@@ -1,25 +1,25 @@
-const express = require('express');
+import express from 'express';
+import {Ingredient} from '../models/ingredient';
+import {Meal} from '../models/meal';
 const router = express.Router();
-const Joi = require('joi');
-const Ingredient = require('../models/ingredient');
-const Meal = require('../models/meal');
 
 router.get('/', async (req, res) => {
   const meals = await Meal
       .find()
+      .populate('ingredients.ingredient')
       .sort({name: 1});
 
   res.send(meals);
 });
 
 router.post('/', async (req, res) => {
-  const ingredientIds = req.body.ingredients.map(i => i.ingredientId);
+  const ingredientIds = req.body.ingredients.map(i => i.ingredient);
   // todo ensure ingredient IDs exist in DB
   const validIngredientCount = await Ingredient
     .where('_id')
     .in(ingredientIds)
     .countDocuments();
-  console.log(validIngredientCount);
+  
   if (validIngredientCount !== ingredientIds.length) 
     return res.status(400).send("Invalid ingredient sent");
 

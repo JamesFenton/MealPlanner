@@ -22,12 +22,15 @@ router.post('/', async (req, res) => {
   if (error) return res.status(400).send(error.details.map(d => d.message));
 
   // if valid - save
-  const ingredient = new Ingredient({
-      name: req.body.name
-  });
-  await ingredient.save();
-
-  res.send(ingredient);
+  try {
+    const ingredient = new Ingredient({
+          name: req.body.name
+      });
+    await ingredient.save();
+    res.send(ingredient);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 });
 
 module.exports = router;
