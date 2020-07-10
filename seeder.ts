@@ -1,4 +1,4 @@
-const Ingredient = require('./models/ingredient');
+import {Ingredient} from './models/ingredient';
 
 const ingredients = [
   new Ingredient({name: 'GF Spaghetti 250g'}),
@@ -9,7 +9,7 @@ const ingredients = [
 
 async function seed() {
   // ingredients
-  const ingredientCount = await Ingredient.count();
+  const ingredientCount = await Ingredient.countDocuments();
   if (ingredientCount == 0) {
     console.log(`Seeding ${ingredients.length} ingredients`);
     await Promise.all(ingredients.map(i => i.save()));

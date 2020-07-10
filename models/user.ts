@@ -1,5 +1,11 @@
-const mongoose = require('mongoose');
-const Joi = require("joi");
+import mongoose from 'mongoose';
+import Joi from "joi";
+
+interface User extends mongoose.Document {
+  name: string;
+  email: string;
+  passwordHash: string;
+}
 
 const schema = new mongoose.Schema({
   name: {
@@ -21,7 +27,7 @@ const schema = new mongoose.Schema({
     maxlength: 1024}
 });
 
-function validate(user) {
+export function validate(user) {
   const schema = {
     name: Joi.string().required().max(100),
     email: Joi.string().required().min(5).max(100).email(),
@@ -31,7 +37,4 @@ function validate(user) {
   return Joi.validate(user, schema);
 }
 
-const model = mongoose.model('User', schema);
-
-exports.User = model;
-exports.validate = validate;
+export const User = mongoose.model<User>('User', schema);

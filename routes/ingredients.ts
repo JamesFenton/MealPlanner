@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const Joi = require('joi');
-const Ingredient = require('../models/ingredient');
+import Joi from 'joi';
+import {Ingredient} from '../models/ingredient';
 
 router.get('/', async (req, res) => {
   const items = await Ingredient
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   // validate
   const schema = Joi.object({
-      name: Joi.required().string().min(3).max(25)
+      name: Joi.string().required().min(3).max(25)
   });
   const {error} = schema.validate(req.body);
 

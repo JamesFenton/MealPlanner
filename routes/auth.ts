@@ -1,9 +1,9 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken");
-const {User, validate} = require('../models/user');
-const config = require("../config");
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import {User, validate} from '../models/user';
+import config from "../config";
 
 const createLoginResponse = (user, res) => {
   const jwtPayload = {
