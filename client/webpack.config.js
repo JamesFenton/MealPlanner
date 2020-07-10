@@ -6,6 +6,9 @@ module.exports = {
   devtool: 'source-map',
   devServer: {
     contentBase: '/dist',
+    proxy: {
+      "/api": "http://localhost:3000"
+    }
   },
   output: {
     filename: 'main.js',

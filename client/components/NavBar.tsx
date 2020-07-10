@@ -1,9 +1,33 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from "react-router-dom";
+import { User, subscribeUserSignedIn, getUser, signOut } from '../services/userSessionService';
 
-class NavBar extends Component {
-  render() { 
-    return (  
+interface NavBarState {
+  user: User
+}
+
+class NavBar extends Component<{}, NavBarState> {
+  state: NavBarState = {user: null};
+
+  componentDidMount() {
+    subscribeUserSignedIn(this.handleUserSignedIn);
+    const user = getUser();
+    if (user)
+      this.setState({user});
+  }
+
+  handleUserSignedIn = (user: User) => {
+    this.setState({user});
+  }
+
+  handleLogOut = (e) => {
+    e.preventDefault();
+    signOut();
+    this.setState({user: null});
+  }
+
+  render() {
+    return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <Link to="/" className="navbar-brand">Home</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +43,17 @@ class NavBar extends Component {
               <NavLink to="ingredients" className="nav-link" activeClassName="active">Ingredients</NavLink>
             </li>
           </ul>
+
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              {this.state.user && <a className="nav-link">{this.state.user.name}</a>}
+              {!this.state.user && <NavLink to="login" className="nav-link" activeClassName="active">Login</NavLink>}
+            </li>
+            <li className="nav-item">
+              {this.state.user && <a href="#" className="nav-link" onClick={this.handleLogOut}>Log Out</a>}
+            </li>
+          </ul>
+
         </div>
       </nav>
     );

@@ -1,7 +1,8 @@
 const express = require('express');
-const cors = require('cors');
 const app = express();
 const config = require('./config');
+
+const auth = require('./routes/auth');
 const ingredients = require('./routes/ingredients');
 const meals = require('./routes/meals');
 const mongoose = require('mongoose');
@@ -16,12 +17,15 @@ db.once('open', function() {
   seed();
 });
 
-if (config.cors)
-  app.use(cors());
+// check config
+if (!config.jwtPrivateKey) {
+  console.error("jwtPrivateKey not set");
+  process.exit(1);
+}
 
 // routes
 app.use(express.json());
-
+app.use('/api/auth', auth);
 app.use('/api/ingredients', ingredients);
 app.use('/api/meals', meals);
 

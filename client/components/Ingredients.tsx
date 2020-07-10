@@ -19,14 +19,18 @@ class Ingredients extends Component<{}, IngredientsState> {
     return ( 
       <div className="container">
         <table className="table">
+          <thead>
           <tr>
             <th>Ingredients</th>
           </tr>
+          </thead>
+          <tbody>
           {this.state.ingredients.map(i => 
-            <tr>
+            <tr key={i._id}>
               <td>{i.name}</td>
             </tr>
             )}
+          </tbody>
         </table>
       </div>
      );
