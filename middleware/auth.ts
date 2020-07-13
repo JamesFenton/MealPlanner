@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from "express";
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import config from "../config";
 
@@ -11,14 +11,13 @@ export interface Payload {
 
 export default function(req: Request, res: Response, next: NextFunction) {
   const header = req.header(accessTokenHeader);
-  if (!header)
-    return res.status(401).send("Access token required");
-  
+  if (!header) return res.status(401).send("Access token required");
+
   try {
     const payload = jwt.verify(header, config.jwtPrivateKey);
     req["user"] = payload;
     next();
-  } catch(ex) {
-    return res.status(400).send("Invalid token");
+  } catch (ex) {
+    return res.status(403).send("Invalid token");
   }
 }

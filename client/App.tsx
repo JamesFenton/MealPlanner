@@ -9,7 +9,8 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 
 class App extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     configureHttp();
   }
 
