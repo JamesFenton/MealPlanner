@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {register} from "../services/authService";
+import React, { useState } from "react";
+import { register } from "../services/authService";
 
 export default function Login() {
   const [name, setName] = useState("");
@@ -7,20 +7,26 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [requesting, setRequesting] = useState(false);
 
-  const submit = async (e) => {
+  const submit = async e => {
     e.preventDefault();
     setRequesting(true);
     try {
-      await register({name, email, password});
-      window.location.href = "#/";
+      await register({ name, email, password });
+      window.location.href = "/";
     } finally {
       setRequesting(false);
     }
-  }
+  };
 
-  const submitButton = requesting
-      ? <button type="submit" className="btn btn-dark" disabled>Working...</button>
-      : <button type="submit" className="btn btn-dark">Register</button>
+  const submitButton = requesting ? (
+    <button type="submit" className="btn btn-dark" disabled>
+      Working...
+    </button>
+  ) : (
+    <button type="submit" className="btn btn-dark">
+      Register
+    </button>
+  );
 
   return (
     <div className="container">
@@ -32,15 +38,27 @@ export default function Login() {
             <form onSubmit={submit}>
               <div className="form-group">
                 <label>Name</label>
-                <input type="text" onChange={(e) => setName(e.target.value)} className="form-control" />
+                <input
+                  type="text"
+                  onChange={e => setName(e.target.value)}
+                  className="form-control"
+                />
               </div>
               <div className="form-group">
                 <label>Email address</label>
-                <input type="email" onChange={(e) => setEmail(e.target.value)} className="form-control" />
+                <input
+                  type="email"
+                  onChange={e => setEmail(e.target.value)}
+                  className="form-control"
+                />
               </div>
               <div className="form-group">
                 <label>Password</label>
-                <input type="password" onChange={(e) => setPassword(e.target.value)} className="form-control" />
+                <input
+                  type="password"
+                  onChange={e => setPassword(e.target.value)}
+                  className="form-control"
+                />
               </div>
               {submitButton}
             </form>
@@ -48,5 +66,5 @@ export default function Login() {
         </div>
       </div>
     </div>
-  )
+  );
 }

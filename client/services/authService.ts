@@ -1,5 +1,5 @@
 import axios from "axios";
-import {signIn} from "./userSessionService";
+import { signIn } from "./userSessionService";
 
 export interface LoginCommand {
   email: string;
@@ -20,7 +20,7 @@ export function register(command: RegisterCommand) {
   return axios.post("/api/auth/register", command).then(handleLoggedIn);
 }
 
-const handleLoggedIn = (res) => {
+const handleLoggedIn = res => {
   const accessToken = res.headers["x-access-token"];
   signIn(accessToken);
 };
