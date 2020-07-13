@@ -1,6 +1,7 @@
 import express from 'express';
 import {Ingredient} from '../models/ingredient';
 import {Meal} from '../models/meal';
+
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -35,4 +36,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

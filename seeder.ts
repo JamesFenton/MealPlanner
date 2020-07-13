@@ -7,7 +7,7 @@ const ingredients = [
   new Ingredient({name: 'Tomato Puree tin'}),
 ];
 
-async function seed() {
+export default async function seed() {
   // ingredients
   const ingredientCount = await Ingredient.countDocuments();
   if (ingredientCount == 0) {
@@ -15,6 +15,5 @@ async function seed() {
     await Promise.all(ingredients.map(i => i.save()));
     console.log("Seeded ingredients");
   }
+  console.log("Seeding complete");
 }
-
-module.exports = seed;

@@ -1,22 +1,24 @@
-import express from 'express';
+import express from "express";
+import Joi from "joi";
+import { Ingredient } from "../models/ingredient";
+import auth from "../middleware/auth";
+
 const router = express.Router();
-import Joi from 'joi';
-import {Ingredient} from '../models/ingredient';
 
-router.get('/', async (req, res) => {
-  const items = await Ingredient
-      .find()
-      .sort({name: 1});
-
+router.get("/", async (req, res) => {
+  const items = await Ingredient.find().sort({ name: 1 });
   res.send(items);
 });
 
-router.post('/', async (req, res) => {
+router.post("/", auth, async (req, res) => {
   // validate
   const schema = Joi.object({
-      name: Joi.string().required().min(3).max(25)
+    name: Joi.string()
+      .required()
+      .min(3)
+      .max(25)
   });
-  const {error} = schema.validate(req.body);
+  const { error } = schema.validate(req.body);
 
   // if invalid
   if (error) return res.status(400).send(error.details.map(d => d.message));
@@ -24,8 +26,8 @@ router.post('/', async (req, res) => {
   // if valid - save
   try {
     const ingredient = new Ingredient({
-          name: req.body.name
-      });
+      name: req.body.name
+    });
     await ingredient.save();
     res.send(ingredient);
   } catch (e) {
@@ -33,4 +35,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

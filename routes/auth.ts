@@ -1,18 +1,9 @@
 import express from "express";
-const router = express.Router();
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import {User, validate} from '../models/user';
-import config from "../config";
+import {accessTokenHeader} from "../middleware/auth";
 
-const createLoginResponse = (user, res) => {
-  const jwtPayload = {
-    id: user.id,
-    name: user.name
-  };
-  const token = jwt.sign(jwtPayload, config.jwtPrivateKey);
-  return res.header('x-access-token', token).sendStatus(200);
-}
+const router = express.Router();
 
 router.post('/login', async (req, res) => {
   const errorMessage = "Invalid login";
@@ -23,8 +14,9 @@ router.post('/login', async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.passwordHash);
   if (!validPassword)
     return res.status(400).send(errorMessage);
-
-  return createLoginResponse(user, res);
+    
+  const token = user.generateAccessToken();
+  return res.header(accessTokenHeader, token).sendStatus(200);
 });
 
 router.post('/register', async (req, res) => {
@@ -46,7 +38,8 @@ router.post('/register', async (req, res) => {
   });
   await user.save();
 
-  return createLoginResponse(user, res);
+  const token = user.generateAccessToken();
+  return res.header(accessTokenHeader, token).sendStatus(200);
 });
 
-module.exports = router;
+export default router;
