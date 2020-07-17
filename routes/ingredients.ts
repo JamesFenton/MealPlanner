@@ -1,6 +1,5 @@
 import express from "express";
-import Joi from "joi";
-import { Ingredient } from "../models/ingredient";
+import { Ingredient, validate } from "../models/ingredient";
 import auth from "../middleware/auth";
 
 const router = express.Router();
@@ -12,27 +11,22 @@ router.get("/", async (req, res) => {
 
 router.post("/", auth, async (req, res) => {
   // validate
-  const schema = Joi.object({
-    name: Joi.string()
-      .required()
-      .min(3)
-      .max(25)
-  });
-  const { error } = schema.validate(req.body);
+  const { error } = validate(req.body);
 
   // if invalid
   if (error) return res.status(400).send(error.details.map(d => d.message));
 
   // if valid - save
-  try {
-    const ingredient = new Ingredient({
-      name: req.body.name
-    });
-    await ingredient.save();
-    res.send(ingredient);
-  } catch (e) {
-    res.status(400).send(e);
-  }
+  const ingredient = new Ingredient({
+    name: req.body.name
+  });
+  await ingredient.save();
+  res.send(ingredient);
+});
+
+router.delete("/:id", auth, async (req, res) => {
+  const item = await Ingredient.findByIdAndDelete(req.params.id);
+  res.send(item);
 });
 
 export default router;

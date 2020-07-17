@@ -1,23 +1,20 @@
-import React, { Component } from "react";
+import React from "react";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import { configureHttp } from "./services/http";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
-import Ingredients from "./components/Ingredients";
-import Meals from "./components/Meals";
+import Ingredients from "./Ingredients/Ingredients";
+import { Meals } from "./meals/Meals";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    configureHttp();
-  }
+export default function() {
+  configureHttp();
 
-  render() {
-    return (
-      <HashRouter>
-        <NavBar />
+  return (
+    <HashRouter>
+      <NavBar />
+      <div className="container">
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/ingredients" component={Ingredients} />
@@ -25,9 +22,7 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
         </Switch>
-      </HashRouter>
-    );
-  }
+      </div>
+    </HashRouter>
+  );
 }
-
-export default App;

@@ -41,13 +41,17 @@ class NavBar extends Component<{}, NavBarState> {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <NavLink to="meals" className="nav-link" activeClassName="active">
+              <NavLink
+                to="/meals"
+                className="nav-link"
+                activeClassName="active"
+              >
                 Meals
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink
-                to="ingredients"
+                to="/ingredients"
                 className="nav-link"
                 activeClassName="active"
               >
