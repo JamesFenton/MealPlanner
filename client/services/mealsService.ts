@@ -5,6 +5,7 @@ const controllerUrl = "/api/meals";
 export interface Meal {
   _id: string;
   name: string;
+  ingredients: any;
 }
 
 export interface AddMealCommand {
