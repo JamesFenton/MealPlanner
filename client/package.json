@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js --output-path ../dist/public"
   },
   "keywords": [],
   "author": "",
