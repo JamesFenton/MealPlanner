@@ -1,5 +1,5 @@
 import express from "express";
-import { Ingredient } from "../models/ingredient";
+import _ from "lodash";
 import { Meal } from "../models/meal";
 import auth from "../middleware/auth";
 
@@ -18,22 +18,34 @@ router.get("/:id", async (req, res) => {
 
   // flatten
   const dto = meal.toObject();
-  dto.ingredients = meal.ingredients.map(i => {
-    return {
-      ...i.ingredient.toObject(),
-      quantity: i.quantity
-    };
-  });
+  dto.ingredients = _(meal.ingredients)
+    .map((i) => {
+      return {
+        ...i.ingredient.toObject(),
+        quantity: i.quantity,
+      };
+    })
+    .orderBy((x) => x.name)
+    .value();
 
   res.send(dto);
 });
 
 router.post("/", auth, async (req, res) => {
-  const meal = new Meal({
-    name: req.body.name,
-    ingredients: req.body.ingredients
-  });
-  await meal.save();
+  const { _id, name, ingredients } = req.body;
+  let meal;
+  if (_id) {
+    meal = await Meal.findByIdAndUpdate(_id, {
+      name: name,
+      ingredients: ingredients,
+    });
+  } else {
+    meal = new Meal({
+      name: req.body.name,
+      ingredients: req.body.ingredients,
+    });
+    await meal.save();
+  }
   res.send(meal);
 });
 

@@ -14,7 +14,7 @@ class NavBar extends Component<{}, NavBarState> {
     if (user) this.setState({ user });
   }
 
-  handleLogOut = e => {
+  handleLogOut = (e) => {
     e.preventDefault();
     signOut();
     window.location.href = "/";
@@ -67,7 +67,7 @@ class NavBar extends Component<{}, NavBarState> {
               )}
               {!this.state.user && (
                 <NavLink
-                  to="login"
+                  to="/login"
                   className="nav-link"
                   activeClassName="active"
                 >

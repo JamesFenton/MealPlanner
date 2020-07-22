@@ -9,6 +9,7 @@ export interface Meal {
 }
 
 export interface AddMealCommand {
+  _id: string;
   name: string;
   ingredients: IngredientQuantity[];
 }
@@ -19,11 +20,11 @@ export interface IngredientQuantity {
 }
 
 export function getMeal(id: string) {
-  return axios.get(controllerUrl + "/" + id).then(r => r.data as Meal);
+  return axios.get(controllerUrl + "/" + id).then((r) => r.data as Meal);
 }
 
 export function listMeals() {
-  return axios.get(controllerUrl).then(r => r.data as Meal[]);
+  return axios.get(controllerUrl).then((r) => r.data as Meal[]);
 }
 
 export function addMeal(command: AddMealCommand) {
