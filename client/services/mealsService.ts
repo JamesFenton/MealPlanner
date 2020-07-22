@@ -19,14 +19,14 @@ export interface IngredientQuantity {
   quantity: number;
 }
 
-export function getMeal(id: string) {
-  return axios.get(controllerUrl + "/" + id).then((r) => r.data as Meal);
-}
+export const getMeal = (id: string) =>
+  axios.get(controllerUrl + "/" + id).then((r) => r.data as Meal);
 
-export function listMeals() {
-  return axios.get(controllerUrl).then((r) => r.data as Meal[]);
-}
+export const listMeals = () =>
+  axios.get(controllerUrl).then((r) => r.data as Meal[]);
 
-export function addMeal(command: AddMealCommand) {
-  return axios.post(controllerUrl, command);
-}
+export const addMeal = (command: AddMealCommand) =>
+  axios.post(controllerUrl, command);
+
+export const deleteMeal = (id: string) =>
+  axios.delete(`${controllerUrl}/${id}`);

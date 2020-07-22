@@ -49,4 +49,10 @@ router.post("/", auth, async (req, res) => {
   res.send(meal);
 });
 
+router.delete("/:id", auth, async (req, res) => {
+  const { id } = req.params;
+  await Meal.findByIdAndDelete(id);
+  res.sendStatus(200);
+});
+
 export default router;

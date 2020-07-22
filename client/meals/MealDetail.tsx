@@ -20,7 +20,7 @@ export const MealDetail: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Ïngredients updated");
+    // todo only show unselected ingredients in dropdown
   }, [ingredients]);
 
   const setQuantity = (ingredient, quantity) => {

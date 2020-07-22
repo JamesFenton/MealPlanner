@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Meal, listMeals } from "../services/mealsService";
+import { Meal, listMeals, deleteMeal } from "../services/mealsService";
 import { Link } from "react-router-dom";
 import { Spinner } from "../components/Spinner";
 
@@ -7,8 +7,15 @@ const MealList: React.FC = () => {
   const [meals, setMeals] = useState<Meal[]>(null);
 
   useEffect(() => {
-    listMeals().then(m => setMeals(m));
+    fetchMeals();
   }, []);
+
+  const fetchMeals = () => listMeals().then((m) => setMeals(m));
+
+  const deleteItem = (meal) => {
+    if (!confirm(`Are you sure you want to delete ${meal.name}?`)) return;
+    deleteMeal(meal._id).then(() => fetchMeals());
+  };
 
   if (!meals) return <Spinner center />;
 
@@ -25,13 +32,21 @@ const MealList: React.FC = () => {
         </tr>
       </thead>
       <tbody>
-        {meals.map(i => (
-          <tr key={i._id}>
-            <td>{i.name}</td>
+        {meals.map((m) => (
+          <tr key={m._id}>
+            <td>{m.name}</td>
             <td>
-              <Link to={`/meals/${i._id}`} className="btn btn-primary btn-sm">
+              <Link to={`/meals/${m._id}`} className="btn btn-primary btn-sm">
                 Edit
               </Link>
+            </td>
+            <td>
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={() => deleteItem(m)}
+              >
+                Delete
+              </button>
             </td>
           </tr>
         ))}
